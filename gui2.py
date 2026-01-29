@@ -1,6 +1,9 @@
 from dearpygui import dearpygui as dpg
-from boardgui import create_board
+# from boardgui import create_board
+from tile import Board  
 
+
+board = Board()
 PLAYERS = [
     {"name": "P1", "money": 1500, "pos": 0, "status": "Active"},
     {"name": "P2", "money": 1500, "pos": 0, "status": "Active"},
@@ -29,16 +32,12 @@ def redo():
 
 
 dpg.create_context()
-dpg.create_viewport(title="Monopoly", width=1200, height=900)
+dpg.create_viewport(title="Monopoly", width=1200, height=950)
 
-with dpg.window(label="Monopoly Game", tag="main_window", width=980, height=680):
+with dpg.window(label="Monopoly Game", tag="main_window", width=980, height=780):
     with dpg.group(horizontal=True):
 
-        create_board(
-            parent=dpg.last_item(),
-            width=850,
-            height=750
-        )
+        board.draw(parent=dpg.last_item())
 
         # -------- SIDE PANEL --------
         with dpg.child_window(width=300, height=650):
@@ -62,6 +61,8 @@ with dpg.window(label="Monopoly Game", tag="main_window", width=980, height=680)
             dpg.add_button(label="Redo", callback=redo)
 
             dpg.add_separator()
+            position= dpg.add_text("your current position: ")
+            
             dpg.add_text("Event Log")
             with dpg.child_window(height=150):
                 dpg.add_text("Game Started")
