@@ -1,10 +1,10 @@
 import socket
 import threading
-
+from dataStructures.DictArray2 import DictArray
 class server:
 
     def __init__(self, host='127.0.0.1', port=5555):
-        self.PlayerNUM = {}
+        self.playersNumber=DictArray()
         self.HOST = host
         self.PORT = port
         self.clients = []
@@ -30,10 +30,9 @@ class server:
         try:
             while True:
                 conn, addr = self.server.accept()
-
-                self.PlayerNUM[f"conn number {len(self.clients)}"] = conn
+                self.playersNumber.set(key=f"conn number {len(self.clients)}",value=conn)
                 print("1 person connected")
-                print(self.PlayerNUM)
+                print(self.playersNumber)
 
                 t = threading.Thread(
                     target=self.handle_client,
@@ -64,8 +63,8 @@ class server:
         for client in self.clients:
             try:
                 client.sendall(message)
-            except:
-                print("Error sending message to client.")
+            except():
+                print("error sending massage :{0}".format(message))
 
     def game(self):
         print("game started")
